@@ -1,0 +1,17 @@
+{
+  "name": "elm-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "elm reactor",
+    "pretest": "npx elm-verify-examples",
+    "test": "npx elm-test",
+    "zip": "node scripts/zip-source.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^5.3.0"
+  }
+}
