@@ -131,7 +131,7 @@ view (Interval interval) =
                     else
                         ""            
             in
-            "Duration: " ++ (includeYears years) ++ (includeMonths months)    
+            (includeYears years) ++ (includeMonths months)    
     in
     div [class "interval"] 
     (
