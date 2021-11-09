@@ -22,17 +22,20 @@ view repo =
     div [class "repo"]
     [
         p [class "repo-name"] [text name]
-        , p [class "repo-description"] [text (description |> Maybe.withDefault "")]
-        , p [class "repo-url"] [ a [href url] [text "Link to repo"] ]
+        , p [class "repo-description"] [ text <| Maybe.withDefault "" <| description]
+        , p [class "repo-url"] [ a [href url] [text "Goto repository"] ]
         , p [] [text pushedAt]
-        , p [class "repo-stars"] [text (String.fromInt stars)]
+        , p [class "repo-stars"] [text <| String.fromInt <| stars]
     ]
 
 
 sortByStars : List Repo -> List Repo
 sortByStars repos =
     -- sort the repositories by stars in descending order
-    List.sortWith (\x y -> compare y.stars x.stars) repos
+    -- List.sortWith (\x y -> compare y.stars x.stars) repos
+    repos
+    |> List.sortBy .stars
+    |> List.reverse
 
 
 {-| Deserializes a JSON object to a `Repo`.

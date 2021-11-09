@@ -30,21 +30,14 @@ main =
         , subscriptions = subscriptions
         }
 
+{- Fetch the repositories from the hardcoded url, and decode the list of json objects using the predefined decoder.
+-}
 fetchRepos: Cmd Msg
 fetchRepos =     
-    --Http.get
-        --{ url = "https://github.com/elm/compiler"
-        --, expect = Http.expectJson GotRepos (De.list Repo.decodeRepo)
-        --}
-    Http.request 
-    { method = "GET"
-    , headers = [Http.header "Access-Control-Allow-Origin:" "*"]
-    , url = "https://github.com/elm/compiler"
-    , body = Http.emptyBody
-    , expect = Http.expectJson GotRepos (De.list Repo.decodeRepo)
-    , timeout = Nothing
-    , tracker = Nothing
-    }
+    Http.get
+        { url = "https://api.github.com/users/keresztesbeata/repos"
+        , expect = Http.expectJson GotRepos (De.list Repo.decodeRepo)
+        }
 
 init : () -> ( Model, Cmd Msg )
 init _ =
@@ -64,6 +57,7 @@ update msg model =
             ( model, fetchRepos )
 
         GotRepos res ->
+        -- in case the result returns an error, no repos will be added to the model
             ( {model | repos = model.repos ++ (Result.withDefault [] res)}
             , Cmd.none )    
 

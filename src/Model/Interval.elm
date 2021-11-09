@@ -115,42 +115,46 @@ compare (Interval intA) (Interval intB) =
 
 
 view : Interval -> Html msg
-view interval =
+view (Interval interval) =
     let 
-        -- create an html node containing the length of the given interval (both in years and months)
-        intervalLengthView: (Int, Int) -> List (Html msg)
-        intervalLengthView intervalLen =
+         -- format the length of an internal before displaying
+        intervalLengthToString (years, months) =
             let
-                -- format the length of an internal before displaying
-                intervalLengthToString intervalLengthTuple  =
-                    "Duration: " ++
-                    "years = " ++ (intervalLengthTuple |> Tuple.first |> String.fromInt) 
-                    ++ "/ " ++
-                    "months = " ++ (intervalLengthTuple |> Tuple.second |> String.fromInt)
+                includeYears noYears =
+                    if noYears > 0 then 
+                        (String.fromInt noYears) ++ " years "
+                    else
+                        ""
+                includeMonths noMonths =
+                    if noMonths > 0 then
+                        (String.fromInt noMonths) ++ " months "
+                    else
+                        ""            
             in
-            [
-                p [class "interval-length"] [text (intervalLengthToString intervalLen)]
-            ]
-
-        -- destructure the interval to access the start and end fields
-        (Interval intervalRecord) = interval                       
+            "Duration: " ++ (includeYears years) ++ (includeMonths months)    
     in
     div [class "interval"] 
     (
         [
-          p [class "interval-start"] [text "From: ", Date.view intervalRecord.start]
+          p [class "interval-start"] [Date.view interval.start]
         , p [class "interval-end"] 
-            [   text "To: "
-                , intervalRecord.end
+            [   
+                interval.end
                 |> Maybe.map Date.view
-                |> Maybe.withDefault (p [] [text "Present"]) 
+                |> Maybe.withDefault (text "Present")
             ]
         ] ++
-        (
-            length interval 
-            |> Maybe.map intervalLengthView
-            |> Maybe.withDefault []
-        )
+        [
+            p [class "interval-length"] 
+                [
+                    interval 
+                    |> Interval 
+                    |> length 
+                    |> Maybe.withDefault (0,0)
+                    |> intervalLengthToString
+                    |> text
+                ]
+        ]
     )
     
 

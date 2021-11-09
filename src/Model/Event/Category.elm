@@ -29,7 +29,7 @@ type SelectedEventCategories
 allSelected : SelectedEventCategories
 allSelected = 
     eventCategories
-    |> List.map (\e -> (e, True))
+    |> List.map (\eventCategory -> (eventCategory, True))
     |> SelectedEventCategories
 
 {-| Given a the current state and a `category` it returns whether the `category` is selected.
@@ -39,8 +39,7 @@ allSelected =
 -}
 isEventCategorySelected : EventCategory -> SelectedEventCategories -> Bool
 isEventCategorySelected category (SelectedEventCategories current) =
-    List.any (\(c, selected) -> c == category && selected) current
-
+    List.any (\(eventCategory, selected) -> eventCategory == category && selected) current
 
 {-| Given an `category`, a boolean `value` and the current state, it sets the given `category` in `current` to `value`.
 
@@ -51,16 +50,15 @@ isEventCategorySelected category (SelectedEventCategories current) =
 -}
 set : EventCategory -> Bool -> SelectedEventCategories -> SelectedEventCategories
 set category value (SelectedEventCategories current) =
-    let 
-        containsElem elem list = 
-            list
-                |> List.map Tuple.first
-                |> List.any (\first -> first == elem)
-    in
-    if containsElem category current then
-            SelectedEventCategories (List.map (\(c, selected) -> if c == category then (c, value) else (c, selected)) current)
-        else
-            SelectedEventCategories ((category, value) :: current)
+    current
+    |> List.map (
+        \(eventCategory, selected) -> 
+            if eventCategory == category then 
+                (eventCategory, value) 
+            else 
+                (eventCategory, selected)
+                ) 
+    |> SelectedEventCategories 
 
 checkbox : String -> Bool -> EventCategory -> Html ( EventCategory, Bool )
 checkbox name state category =

@@ -21,7 +21,7 @@ type alias PersonalDetails =
 view : PersonalDetails -> Html msg
 view details =
     let 
-        contactView contact = p [class "contact-detail"] [text (contact.name ++ " : " ++ contact.detail)]
+        contactView contact = p [class "contact-detail"] [text <| contact.name ++ " : " ++ contact.detail]
         socialLinkView socialLink = a [class "social-link", href socialLink.detail] [text socialLink.name]
         {name, contacts, intro, socials} = details
     in

@@ -56,7 +56,8 @@ monthsBetween (Date dA) (Date dB) =
     in
     case (dA.month, dB.month)  of
         (Nothing, Nothing) -> 
-            Just yearDifference
+        -- when both months are missing, then the total number of months is returned between the 2 years (considering a full year)
+            Just (yearDifference * 12)
 
         (_, Nothing) -> 
             Nothing
@@ -170,7 +171,7 @@ view d =
                     |> Maybe.map monthToString 
                     |> Maybe.withDefault "")           
     in                
-    text ( dateToString d )
+    text <| dateToString d 
     
 
 -- MONTH

@@ -35,7 +35,7 @@ categoryView category =
 
 sortByInterval : List Event -> List Event
 sortByInterval events =
-    List.sortWith (\e1 e2 -> Interval.compare e1.interval e2.interval) events
+    List.sortWith (\event1 event2 -> Interval.compare event1.interval event2.interval) events
 
 
 view : Event -> Html Never
@@ -50,6 +50,6 @@ view event =
         , div [class "event-interval"] [ Interval.view interval ]
         , p [class "event-description"] [description]
         , p [class "event-category"] [categoryView category]
-        , a [href (Maybe.withDefault "#" url), class "event-url"] [text "Link to event"]
+        , a [href (Maybe.withDefault "#" url), class "event-url"] [text "Goto event"]
         , ul [] (List.map viewTag tags)
     ]
