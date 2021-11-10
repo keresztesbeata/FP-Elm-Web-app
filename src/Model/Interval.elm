@@ -102,6 +102,7 @@ compare (Interval intA) (Interval intB) =
             case (intA.end, intB.end) of
                 (Nothing, Nothing) ->
                     EQ
+                    
                 (_, Nothing) -> 
                     LT
 
@@ -131,30 +132,27 @@ view (Interval interval) =
                     else
                         ""            
             in
-            (includeYears years) ++ (includeMonths months)    
+            (includeYears years) ++ (includeMonths months) 
+
+        -- display the interval length
+        intervalLengthView: (Int, Int) -> Html msg
+        intervalLengthView intervalLength =
+            p [class "interval-length"] [text <| intervalLengthToString intervalLength]
     in
     div [class "interval"] 
-    (
         [
-          p [class "interval-start"] [Date.view interval.start]
-        , p [class "interval-end"] 
-            [   
-                interval.end
-                |> Maybe.map Date.view
-                |> Maybe.withDefault (text "Present")
-            ]
-        ] ++
-        [
-            p [class "interval-length"] 
-                [
-                    interval 
-                    |> Interval 
-                    |> length 
-                    |> Maybe.withDefault (0,0)
-                    |> intervalLengthToString
-                    |> text
+            p [class "interval-start"] [Date.view interval.start]
+            , p [class "interval-end"] 
+                [   
+                    interval.end
+                    |> Maybe.map Date.view
+                    |> Maybe.withDefault (text "Present")
                 ]
+            , interval 
+                |> Interval 
+                |> length 
+                |> Maybe.map intervalLengthView
+                |> Maybe.withDefault (p [] [])
         ]
-    )
     
 

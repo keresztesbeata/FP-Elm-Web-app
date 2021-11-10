@@ -6,7 +6,7 @@ import Model.Event as Event exposing (Event)
 import Model.Event.Category exposing (EventCategory(..), SelectedEventCategories, allSelected)
 import Model.Interval as Interval
 import Model.PersonalDetails exposing (DetailWithName, PersonalDetails)
-import Model.Repo exposing (Repo)
+import Model.Repo exposing (Repo, SortField(..))
 
 
 type alias Model =
@@ -14,6 +14,8 @@ type alias Model =
     , events : List Event
     , selectedEventCategories : SelectedEventCategories
     , repos : List Repo
+    , repoSortField : SortField
+    , repoSortOrder : Bool
     }
 
 
@@ -103,4 +105,6 @@ initModel =
     , events = Event.sortByInterval <| academicEvents ++ workEvents ++ projectEvens
     , selectedEventCategories = allSelected
     , repos = []
+    , repoSortField = Stars
+    , repoSortOrder = False -- descending order
     }

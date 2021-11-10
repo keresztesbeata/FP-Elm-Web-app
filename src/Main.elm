@@ -2,7 +2,7 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (style, value, type_, checked)
 import Html.Events exposing (..)
 import Http
 import Json.Decode as De
@@ -12,14 +12,13 @@ import Model.Event.Category as EventCategory
 import Model.PersonalDetails as PersonalDetails
 import Model.Repo as Repo
 
-import Task
-
 type Msg
     = GetRepos
     | GotRepos (Result Http.Error (List Repo.Repo))
     | SelectEventCategory EventCategory.EventCategory
     | DeselectEventCategory EventCategory.EventCategory
-
+    | SelectRepoSortField String
+    | SelectRepoSortOrder Bool
 
 main : Program () Model Msg
 main =
@@ -57,7 +56,7 @@ update msg model =
             ( model, fetchRepos )
 
         GotRepos res ->
-        -- in case the result returns an error, no repos will be added to the model
+            -- in case the result returns an error, no repos will be added to the model
             ( {model | repos = model.repos ++ (Result.withDefault [] res)}
             , Cmd.none )    
 
@@ -67,6 +66,11 @@ update msg model =
         DeselectEventCategory category ->
             ( {model | selectedEventCategories = EventCategory.set category False model.selectedEventCategories}, Cmd.none)
 
+        SelectRepoSortOrder sortOrder ->
+            ( {model | repoSortOrder = sortOrder}, Cmd.none)
+            
+        SelectRepoSortField sortFieldName ->
+            ( {model | repoSortField = Repo.stringToSortField sortFieldName}, Cmd.none)
 
 eventCategoryToMsg : ( EventCategory.EventCategory, Bool ) -> Msg
 eventCategoryToMsg ( event, selected ) =
@@ -83,6 +87,13 @@ view model =
         eventCategoriesView =
             EventCategory.view model.selectedEventCategories |> Html.map eventCategoryToMsg
 
+        repoSortFieldDropDownView =
+            select [ Html.Events.onInput SelectRepoSortField ]
+                [ option [ value <| Repo.sortFieldToString Repo.Stars ] [ text <| Repo.sortFieldToString Repo.Stars ]
+                , option [ value <| Repo.sortFieldToString Repo.Name ] [ text <| Repo.sortFieldToString Repo.Name ]
+                , option [ value <| Repo.sortFieldToString Repo.PushedAt ] [ text <| Repo.sortFieldToString Repo.PushedAt ]
+                ]
+            
         eventsView =
             model.events
                 |> List.filter (.category >> (\cat -> EventCategory.isEventCategorySelected cat model.selectedEventCategories))
@@ -92,7 +103,7 @@ view model =
 
         reposView =
             model.repos
-                |> Repo.sortByStars
+                |> Repo.sortByFieldInOrder model.repoSortField model.repoSortOrder
                 |> List.take 5
                 |> List.map Repo.view
                 |> div []
@@ -103,5 +114,8 @@ view model =
         , eventCategoriesView
         , eventsView
         , h2 [] [ text "My top repos" ]
+        , repoSortFieldDropDownView
+        , p [] [input [ type_ "checkbox", onCheck SelectRepoSortOrder, checked model.repoSortOrder] [], text "ASC" ]
         , reposView
         ]
+

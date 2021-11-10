@@ -1,4 +1,4 @@
-module Model.Event.Category exposing (EventCategory(..), SelectedEventCategories, allSelected, eventCategories, isEventCategorySelected, set, view)
+module Model.Event.Category exposing (EventCategory(..), SelectedEventCategories, allSelected, eventCategories, isEventCategorySelected, set, view, eventCategoryToString)
 
 import Html exposing (Html, div, input, text)
 import Html.Attributes exposing (checked, class, style, type_)
