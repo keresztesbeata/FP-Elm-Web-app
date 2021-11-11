@@ -129,7 +129,7 @@ decodeRepo =
     De.map5 Repo
         (De.field "name" De.string)
         (De.field "description" (De.maybe De.string))
-        (De.field "url" De.string)
+        (De.field "html_url" De.string)
         (De.field "pushed_at" De.string)
         (De.field "stargazers_count" De.int)
 

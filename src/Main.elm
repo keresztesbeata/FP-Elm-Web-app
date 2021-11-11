@@ -128,10 +128,10 @@ view model =
                 style "justify-content" "center" 
             ]
             
-        reposViewFormatter = 
+        sideLinesFormatter = 
             [
-                style "border-left" "2px solid silver",
-                style "border-right" "2px solid silver"
+                style "border-left" "2px solid grey",
+                style "border-right" "2px solid grey"
             ]
 
         eventCategoriesView =
@@ -154,7 +154,7 @@ view model =
             model.events
                 |> List.filter (.category >> (\cat -> EventCategory.isEventCategorySelected cat model.selectedEventCategories))
                 |> List.map Event.view
-                |> div centerAlign
+                |> div (centerAlign ++ sideLinesFormatter)
                 |> Html.map never
 
         reposView =
@@ -162,7 +162,7 @@ view model =
                 |> Repo.sortByFieldInOrder model.repoSortField model.repoSortOrder
                 |> List.take 5
                 |> List.map Repo.view
-                |> div (centerAlign ++ reposViewFormatter)
+                |> div (centerAlign ++ sideLinesFormatter)
 
     in
     div pageFormatter

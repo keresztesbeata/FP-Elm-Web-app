@@ -46,7 +46,7 @@ view event =
                 style "text-align" "center",  
                 style "padding-top" "5%", 
                 style "padding-bottom" "2%", 
-                style "margin-top" "5%"
+                style "margin" "5% 5% 0% 5%"
             ]
 
         linkFormatter = 
