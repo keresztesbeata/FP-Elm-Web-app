@@ -45,20 +45,23 @@ view repo =
     let
         repoCardFormatter = 
             [ 
-                style "background-color" "#ccccff", 
-                style "opacity" "0.75", 
+                style "background-color" "rgba(0, 0, 0, 0.5)", 
+                style "color" "white",
+                style "opacity" "0.8", 
                 style "border-radius" "10px", 
                 style "text-align" "center",  
                 style "padding-top" "5%", 
                 style "padding-bottom" "2%",
-                style "margin" "5% 5% 0% 5%"
+                style "margin" "5% 5% 0% 5%",
+                style "padding-left" "5%",
+                style "padding-right" "5%"
             ]
         
         linkFormatter = 
             [ 
                 style "text-decoration" "none", 
                 style "color" "#FF1493"
-            ]
+            ]   
 
         {name, description, url, pushedAt, stars} = repo
     in

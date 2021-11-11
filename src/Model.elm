@@ -21,16 +21,16 @@ type alias Model =
 
 academicEvents : List Event
 academicEvents =
-    [ { title = "Academic event 1"
-      , interval = Interval.withDurationYears (Date.onlyYear 2016) 4
+    [ { title = "Silvania High School, Mathematics - Informatics Profile"
+      , interval = Interval.withDurationYears (Date.onlyYear 2015) 4
       , description = p [] [ text "I obtained ", b [] [ text "very" ], text " good grades." ]
       , category = Academic
       , url = Nothing
       , tags = []
       , important = False
       }
-    , { title = "Academic event 2"
-      , interval = Interval.withDurationYears (Date.onlyYear 2020) 2
+    , { title = "Technical University of Cluj-Napoca, Faculty of Computer Science"
+      , interval = Interval.open (Date.onlyYear 2019)
       , description = div [] []
       , category = Academic
       , url = Nothing
@@ -42,19 +42,11 @@ academicEvents =
 
 workEvents : List Event
 workEvents =
-    [ { title = "Work event 1"
-      , interval = Interval.withDurationMonths 2019 Date.Jun 3
-      , description = text "Internship"
+    [ { title = "Internship"
+      , interval = Interval.withDurationMonths 2021 Date.Jul 2
+      , description = text "Full Stack Software Engineer (Java & Angular JS) - MicroFocus"
       , category = Work
-      , url = Nothing
-      , tags = []
-      , important = False
-      }
-    , { title = "Work event 2"
-      , interval = Interval.open (Date.full 2020 Date.Sep)
-      , description = text "Junior position"
-      , category = Work
-      , url = Nothing
+      , url = Just "https://jobs.microfocus.com/global/en/job/7021598/Full-Stack-Software-Engineer"
       , tags = []
       , important = False
       }
@@ -63,27 +55,35 @@ workEvents =
 
 projectEvens : List Event
 projectEvens =
-    [ { title = "Personal project 1"
-      , interval = Interval.oneYear 2018
-      , description = text "Small app in Java"
+    [ { title = "Online Learning Management System"
+      , interval = Interval.withDurationMonths 2020 Date.Dec 1
+      , description = text "Web application in Php"
       , category = Project
-      , url = Nothing
+      , url = Just "https://github.com/keresztesbeata/Online_learning_management_system"
       , tags = []
-      , important = False
+      , important = True
       }
-    , { title = "Personal project 2"
-      , interval = Interval.oneYear 2020
-      , description = text "Command line utility in C"
+    , { title = "Team & Project Management App"
+      , interval = Interval.withDurationMonths 2020 Date.Nov 1
+      , description = text <| "Java desktop application, front-end in Spring. In collaboration with: Fazakas Borbála. "
       , category = Project
-      , url = Nothing
+      , url = Just "https://github.com/keresztesbeata/Project-Management-App-F-K"
       , tags = []
-      , important = False
+      , important = True
       }
-    , { title = "Personal project 3"
-      , interval = Interval.oneYear 2020
-      , description = text "Movie database for License thesis"
+    , { title = "ATM (Automated Teller Machine)"
+      , interval = Interval.withDurationMonths 2020 Date.Oct 4
+      , description = text "VHDL application implemented and tested on Basys3 dev board. In collaboration with: Fazakas Borbála. "
       , category = Project
-      , url = Nothing
+      , url = Just "https://github.com/keresztesbeata/ATM"
+      , tags = []
+      , important = True
+      }
+    , { title = "Relational Databases"
+      , interval = Interval.withDurationMonths 2020 Date.Sep 5
+      , description = text "Relational, normalized database in SQLite, MsSQL and SQLServer, with additional queries in SQL for managing the stored data."  
+      , category = Project
+      , url = Just "https://github.com/keresztesbeata/Relational-Databases"
       , tags = []
       , important = False
       }
@@ -92,10 +92,10 @@ projectEvens =
 
 personalDetails : PersonalDetails
 personalDetails =
-    { name = "John Doe"
-    , intro = "I like computers"
-    , contacts = [ DetailWithName "email" "john@domain.com" ]
-    , socials = [ DetailWithName "github" "https://github.com/octocat" ]
+    { name = "Keresztes Beáta"
+    , intro = "I am a Computer Science undergraduate student, passionate about programming and mathematics."
+    , contacts = [ DetailWithName "email" "keresztesbeata00@yahoo.com"]
+    , socials = [ DetailWithName "github" "https://github.com/keresztesbeata"]
     }
 
 

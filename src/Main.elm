@@ -115,7 +115,7 @@ view model =
 
         dropDownFormatter = 
             [ 
-                style "background-color" "#ccccff", 
+                style "background-color" "white", 
                 style "text-align" "center",
                 style "width" "25%",
                 style "font-size" "101%",
@@ -160,7 +160,7 @@ view model =
         reposView =
             model.repos
                 |> Repo.sortByFieldInOrder model.repoSortField model.repoSortOrder
-                |> List.take 5
+                |> List.take 7
                 |> List.map Repo.view
                 |> div (centerAlign ++ sideLinesFormatter)
 

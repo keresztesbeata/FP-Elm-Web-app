@@ -165,7 +165,7 @@ view (Interval interval) =
                 |> Interval 
                 |> length 
                 |> Maybe.map intervalLengthView
-                |> Maybe.withDefault (p [] [])
+                |> Maybe.withDefault (p [] [text " - "])
             ]
         ]
     

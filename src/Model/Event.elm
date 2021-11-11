@@ -27,32 +27,35 @@ view event =
         selectColorByEventType eventCategory = 
             case eventCategory of
                 Academic ->
-                    "#f5d6eb"
+                    "rgb(134, 45, 89, 0.5)"
 
                 Award ->
-                    "#d9ffb3"
+                    "rgb(217, 255, 179, 0.5)"
 
                 Work ->
-                    "#ccffff"
+                    "rgb(0, 230, 184, 0.5)"
 
                 Project ->
-                    "#ffd480"
+                    "rgb(255, 187, 51, 0.5)"
 
         eventCardFormatter eventCategory = 
             [ 
                 style "background-color" <| selectColorByEventType eventCategory, 
-                style "opacity" "0.75", 
                 style "border-radius" "10px", 
+                style "color" "white",
+                style "opacity" "0.8",
                 style "text-align" "center",  
                 style "padding-top" "5%", 
                 style "padding-bottom" "2%", 
-                style "margin" "5% 5% 0% 5%"
+                style "margin" "5% 5% 0% 5%",
+                style "padding-left" "5%",
+                style "padding-right" "5%"
             ]
 
         linkFormatter = 
             [ 
                 style "text-decoration" "none", 
-                style "color" "#FF1493"
+                style "color" "#ff6699"
             ]
 
         viewTag tag = p [] [text tag]
