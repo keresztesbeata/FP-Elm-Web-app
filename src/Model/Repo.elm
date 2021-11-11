@@ -1,7 +1,7 @@
 module Model.Repo exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href)
+import Html.Attributes exposing (class, href, style)
 import Json.Decode as De
 import Model.Date
 
@@ -43,15 +43,32 @@ stringToSortField sortFieldName =
 view : Repo -> Html msg
 view repo =
     let
+        repoCardFormatter = 
+            [ 
+                style "background-color" "#ccccff", 
+                style "opacity" "0.75", 
+                style "border-radius" "10px", 
+                style "text-align" "center",  
+                style "padding-top" "5%", 
+                style "padding-bottom" "2%",
+                style "margin" "5% 5% 0% 5%"
+            ]
+        
+        linkFormatter = 
+            [ 
+                style "text-decoration" "none", 
+                style "color" "#FF1493"
+            ]
+
         {name, description, url, pushedAt, stars} = repo
     in
-    div [class "repo"]
+    div ([class "repo"] ++ repoCardFormatter)
     [
-        p [class "repo-name"] [text name]
-        , p [class "repo-description"] [ text <| Maybe.withDefault "" <| description]
-        , p [class "repo-url"] [ a [href url] [text "Goto repository"] ]
-        , p [] [text pushedAt]
-        , p [class "repo-stars"] [text <| String.fromInt <| stars]
+        h3 [class "repo-name"] [text name]
+        , em [class "repo-description"] [ text <| Maybe.withDefault "" <| description]
+        , p [] [text <| "Pushed at: " ++ pushedAt]
+        , p [class "repo-stars"] [text <| "Stars: " ++ (String.fromInt stars)]
+        , p [class "repo-url"] [ a ([href url] ++ linkFormatter) [text "Goto repository"] ]
     ]
 
 {- Sort the repositories by stars in ascending order

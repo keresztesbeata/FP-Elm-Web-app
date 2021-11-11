@@ -62,7 +62,10 @@ set category value (SelectedEventCategories current) =
 
 checkbox : String -> Bool -> EventCategory -> Html ( EventCategory, Bool )
 checkbox name state category =
-    div [ style "display" "inline", class "category-checkbox" ]
+    div [ 
+            style "display" "inline", 
+            class "category-checkbox" 
+        ] 
         [ input [ type_ "checkbox", onCheck (\c -> ( category, c )), checked state ] []
         , text name
         ]
@@ -70,7 +73,17 @@ checkbox name state category =
 
 view : SelectedEventCategories -> Html ( EventCategory, Bool )
 view (SelectedEventCategories model) =
-    div [] 
+    let
+        checkboxRowFormatter = 
+            [   
+                style "color" "white", 
+                style "font-size" "125%", 
+                style "display" "flex", 
+                style "flex-direction" "row", 
+                style "justify-content" "space-around" 
+            ]
+    in
+    div checkboxRowFormatter 
     (List.map (\(category, selected) -> checkbox (eventCategoryToString category) selected category) model)
     
     

@@ -84,21 +84,77 @@ eventCategoryToMsg ( event, selected ) =
 view : Model -> Html Msg
 view model =
     let
+        -- define style attributes
+        pageFormatter = 
+            [
+                style "background-color" "#2B2D2F", 
+                style "margin-top" "0%",
+                style "margin-bottom" "0%"   
+            ]
+
+        centerAlign = 
+            [ 
+                style "margin-left" "auto", 
+                style "margin-right" "auto", 
+                style "width" "75%" 
+            ]
+
+        spaceBetweenSections = 
+            [ 
+                style "margin-top" "5%", 
+                style "margin-bottom" "5%" 
+            ]
+
+        sectionHeader = 
+            [
+                style "color" "white", 
+                style "font-weight" "bold", 
+                style "font-size" "200%",
+                style "text-align" "center"
+            ]
+
+        dropDownFormatter = 
+            [ 
+                style "background-color" "#ccccff", 
+                style "text-align" "center",
+                style "width" "25%",
+                style "font-size" "101%",
+                style "border-radius" "10px"
+            ]
+
+        inLineCenterAlignFormatter = 
+            [
+                style "display" "flex",
+                style "justify-content" "center" 
+            ]
+            
+        reposViewFormatter = 
+            [
+                style "border-left" "2px solid silver",
+                style "border-right" "2px solid silver"
+            ]
+
         eventCategoriesView =
             EventCategory.view model.selectedEventCategories |> Html.map eventCategoryToMsg
 
         repoSortFieldDropDownView =
-            select [ Html.Events.onInput SelectRepoSortField ]
+            select ([ Html.Events.onInput SelectRepoSortField ] ++ dropDownFormatter)
                 [ option [ value <| Repo.sortFieldToString Repo.Stars ] [ text <| Repo.sortFieldToString Repo.Stars ]
                 , option [ value <| Repo.sortFieldToString Repo.Name ] [ text <| Repo.sortFieldToString Repo.Name ]
                 , option [ value <| Repo.sortFieldToString Repo.PushedAt ] [ text <| Repo.sortFieldToString Repo.PushedAt ]
                 ]
-            
+
+        sortOrderCheckBoxView =
+            let
+                labelFormatter = [ style "color" "white", style "font-size" "110%"]
+            in
+            div labelFormatter [input [ type_ "checkbox", onCheck SelectRepoSortOrder, checked model.repoSortOrder] [], text "ASC" ]                
+
         eventsView =
             model.events
                 |> List.filter (.category >> (\cat -> EventCategory.isEventCategorySelected cat model.selectedEventCategories))
                 |> List.map Event.view
-                |> div []
+                |> div centerAlign
                 |> Html.map never
 
         reposView =
@@ -106,16 +162,25 @@ view model =
                 |> Repo.sortByFieldInOrder model.repoSortField model.repoSortOrder
                 |> List.take 5
                 |> List.map Repo.view
-                |> div []
+                |> div (centerAlign ++ reposViewFormatter)
+
     in
-    div []
+    div pageFormatter
+    [
+        div centerAlign
         [ PersonalDetails.view model.personalDetails
-        , h2 [] [ text "Experience" ]
+        , hr spaceBetweenSections []
+        , h2 sectionHeader [ text "Experience" ]
         , eventCategoriesView
         , eventsView
-        , h2 [] [ text "My top repos" ]
-        , repoSortFieldDropDownView
-        , p [] [input [ type_ "checkbox", onCheck SelectRepoSortOrder, checked model.repoSortOrder] [], text "ASC" ]
-        , reposView
+        , hr spaceBetweenSections []
+        , h2 sectionHeader [ text "My top repos" ]
+        , div inLineCenterAlignFormatter
+        [
+            div [style "color" "white"] [text "Sort by :"]
+            , repoSortFieldDropDownView
+            , sortOrderCheckBoxView
+        ], reposView
         ]
+    ]
 

@@ -138,21 +138,35 @@ view (Interval interval) =
         intervalLengthView: (Int, Int) -> Html msg
         intervalLengthView intervalLength =
             p [class "interval-length"] [text <| intervalLengthToString intervalLength]
+
+        intervalFormatter = 
+            [ 
+                style "display" "flex", 
+                style "justify-content" "center"
+            ]    
     in
-    div [class "interval"] 
+    div [class "interval"]
         [
-            p [class "interval-start"] [Date.view interval.start]
-            , p [class "interval-end"] 
-                [   
-                    interval.end
-                    |> Maybe.map Date.view
-                    |> Maybe.withDefault (text "Present")
-                ]
-            , interval 
+            div intervalFormatter
+            [
+                div [class "interval-start"] [Date.view interval.start]
+                , div [] [text " - "]
+                , div [class "interval-end"] 
+                    [   
+                        interval.end
+                        |> Maybe.map Date.view
+                        |> Maybe.withDefault (text "Present")
+                    ]
+            ]
+            , div intervalFormatter
+            [ 
+                p [] [text "Duration: "]
+                , interval 
                 |> Interval 
                 |> length 
                 |> Maybe.map intervalLengthView
                 |> Maybe.withDefault (p [] [])
+            ]
         ]
     
 
